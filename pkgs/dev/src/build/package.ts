@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { build, type OutputChunk } from "rolldown";
-import { $ } from "zx";
+import { $, glob } from "zx";
 
 export async function buildPackage(packageDir: string) {
   const cwd = path.resolve(packageDir);
@@ -18,7 +18,11 @@ export async function buildPackage(packageDir: string) {
   await copyPackageFiles(cwd, outDir);
   await buildCts(outDir);
   await preparePackageJson(outDir);
-  await $({ cwd: outDir })`pnpm exec oxfmt`;
+  const [jsFiles, tsFiles] = await Promise.all([
+    glob("**/*.*js", { cwd: outDir }),
+    glob("**/*.ts", { cwd: outDir }),
+  ]);
+  await $({ cwd: outDir })`pnpm exec oxfmt ${jsFiles} ${tsFiles}`;
 }
 
 async function buildFormat(

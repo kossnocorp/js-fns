@@ -8,6 +8,18 @@ This change log follows the format documented in [Keep a CHANGELOG].
 [semantic versioning]: http://semver.org/
 [keep a changelog]: http://keepachangelog.com/
 
+## v0.3.5 - 2026-08-12
+
+### Fixed
+
+- Properly use glob patterns when calling Oxfmt.
+
+## v0.3.4 - 2026-08-12
+
+### Fixed
+
+- Fixed compatibility with the latest Oxfmt requiring explicit paths.
+
 ## v0.3.3 - 2026-08-12
 
 ### Fixed

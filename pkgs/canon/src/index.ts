@@ -8,7 +8,11 @@
  * @param input - The value to canonicalize.
  * @returns The canonicalized string representation of the input.
  */
-export function canonize(input: unknown, seen = new WeakMap(), path = []): string {
+export function canonize(
+  input: unknown,
+  seen = new WeakMap(),
+  path = [],
+): string {
   if (typeof input !== "object" || !input) {
     // NOTE: Traditional approach is faster than `Object.is(input, -0)`
     if (input === 0 && 1 / input === -Infinity) return "-0";
@@ -25,7 +29,9 @@ export function canonize(input: unknown, seen = new WeakMap(), path = []): strin
   const isArray = Array.isArray(input);
   // NOTE: Skipping sorting for arrays improves performance. We also tried
   // using `for...in` loop for arrays but it didn't affect performance at all.
-  const keys = (isArray ? Object.keys(input) : Object.keys(input).sort()) as (keyof typeof input)[];
+  const keys = (
+    isArray ? Object.keys(input) : Object.keys(input).sort()
+  ) as (keyof typeof input)[];
 
   for (const key of keys) {
     canon += `${key}:${canonize(input[key], seen, path.concat(key))};`;
