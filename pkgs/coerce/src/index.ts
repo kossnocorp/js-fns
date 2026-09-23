@@ -1,7 +1,10 @@
 import type { Coerce } from "./types.ts";
 
 export type { Coerce };
-export type FromCoercer<Coercer> = Coerce.Core.FromCoercer<Coercer>;
+
+export namespace coercer {
+  export type Infer<Coercer> = Coerce.Core.FromCoercer<Coercer>;
+}
 
 const memoized = [new Map(), new Map()];
 const symbols = [Symbol(), Symbol(), Symbol()];

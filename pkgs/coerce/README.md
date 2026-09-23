@@ -30,7 +30,7 @@ It accepts the desired shape type as the generic argument and type-checks the de
 But just like the alternatives, it allows inferring types from the schema:
 
 ```ts
-import { coercer, type FromCoercer } from "@js-fns/coerce";
+import { coercer } from "@js-fns/coerce";
 
 const coerceUser = coercer.infer(($) => ({
   name: String,
@@ -38,11 +38,11 @@ const coerceUser = coercer.infer(($) => ({
   age: $.Optional(Number),
 }));
 
-type User = FromCoercer<typeof coerceUser>;
+type User = coercer.Infer<typeof coerceUser>;
 // { name: string, email: string, age?: number }
 ```
 
-It also accepts `FormData` making it ideal when working with forms, especially inside of React Server Components:
+It also accepts [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) making it ideal when working with forms, especially inside of React Server Components:
 
 ```tsx
 import { coercer } from "@js-fns/coerce";
@@ -69,7 +69,7 @@ function SignInForm() {
 }
 ```
 
-You can also use constructors as coercers, that is useful for example when working with `File`:
+You can also use constructors as coercers, that is useful, for example, when working with `File`:
 
 ```tsx
 import { coercer } from "@js-fns/coerce";
@@ -96,20 +96,20 @@ function UploadForm() {
 
 It will check if the value is an instance of `File`, and if not, it will try to call `new File()` without parameters.
 
-## Getting started
+## Getting Started
 
 ### Installation
 
-Start by installing the package:
+The package is available as a standalone npm package:
 
 ```sh
-npm i @js-fns/coerce
+npm install @js-fns/coerce
 ```
 
-It is also available as part of `js-fns`:
+It is also available as a part of the `js-fns` collection:
 
-```ts
-import { coercer } from "js-fns/coerce";
+```sh
+npm install js-fns
 ```
 
 ## Changelog
@@ -118,4 +118,4 @@ See [the changelog](./CHANGELOG.md).
 
 ## License
 
-[MIT © Sasha Koss](https://kossnocorp.mit-license.org/)
+[MIT © Sasha Koss](https://koss.nocorp.me/mit/)

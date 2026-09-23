@@ -1,5 +1,5 @@
-/* oxlint-disable no-unused-expressions -- Property access checks inferred types. */
-import { type FromCoercer, coercer } from "./index.ts";
+// oxlint-disable no-unused-expressions -- Property access checks inferred types.
+import { coercer } from "./index.ts";
 
 //#region Core
 {
@@ -64,7 +64,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       age: $.Optional(Number),
     }));
 
-    type UserSchema = FromCoercer<typeof coerceUser>;
+    type UserSchema = coercer.Infer<typeof coerceUser>;
     type _a = Assert<User, UserSchema>;
     type _b = Assert<UserSchema, User>;
 
@@ -144,7 +144,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       user.name.first;
 
       //! If allows to infer schema
-      type UserSchema = FromCoercer<typeof coerceUser>;
+      type UserSchema = coercer.Infer<typeof coerceUser>;
       type _a = Assert<User, UserSchema>;
       type _b = Assert<UserSchema, User>;
     }
@@ -206,7 +206,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       }
 
       //! If allows to infer schema
-      type SongSchema = FromCoercer<typeof coerceSong>;
+      type SongSchema = coercer.Infer<typeof coerceSong>;
       type _a = Assert<Song, SongSchema>;
       type _b = Assert<SongSchema, Song>;
     }
@@ -242,7 +242,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       status: $.Union("active" as const, "inactive" as const, null),
     }));
 
-    type WebhookSchema = FromCoercer<typeof coerceWebhooks>;
+    type WebhookSchema = coercer.Infer<typeof coerceWebhooks>;
     type _a = Assert<Webhook, WebhookSchema>;
     type _b = Assert<WebhookSchema, Webhook>;
 
@@ -311,7 +311,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       ),
     }));
 
-    type UserSchema = FromCoercer<typeof coerceUser>;
+    type UserSchema = coercer.Infer<typeof coerceUser>;
     type _a = Assert<User, UserSchema>;
     type _b = Assert<UserSchema, User>;
 
@@ -364,7 +364,7 @@ import { type FromCoercer, coercer } from "./index.ts";
     mixed.type;
 
     //! If allows to infer schema
-    type MixedSchema = FromCoercer<typeof coerceMixed>;
+    type MixedSchema = coercer.Infer<typeof coerceMixed>;
     type _a = Assert<Mixed, MixedSchema>;
     type _b = Assert<MixedSchema, Mixed>;
   }
@@ -405,7 +405,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       rememberMe: CheckboxBoolean,
     });
 
-    type FormSchema = FromCoercer<typeof coerceForm>;
+    type FormSchema = coercer.Infer<typeof coerceForm>;
     type _a = Assert<SignInForm, FormSchema>;
     type _b = Assert<FormSchema, SignInForm>;
 
@@ -442,7 +442,7 @@ import { type FromCoercer, coercer } from "./index.ts";
       file: File,
     });
 
-    type FormSchema = FromCoercer<typeof coerceForm>;
+    type FormSchema = coercer.Infer<typeof coerceForm>;
     type _a = Assert<UploadForm, FormSchema>;
     type _b = Assert<FormSchema, UploadForm>;
 
