@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { coercer } from ".";
+import { coercer } from "./index.ts";
 
-describe("ofcoerce", () => {
+describe("coercer", () => {
   it("copies the object", () => {
     const coerce = createUserCoercer();
     const input = {
@@ -316,7 +316,7 @@ interface Order {
 }
 
 function createOrderCoercer() {
-  return coercer<Order>(($) => ({
+  return coercer<Order>(() => ({
     amount: Number,
     address: {
       street: String,
@@ -366,7 +366,7 @@ interface Upload {
 }
 
 function createUploadCoercer() {
-  return coercer<Upload>(($) => ({
+  return coercer<Upload>(() => ({
     name: String,
     file: File,
   }));

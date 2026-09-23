@@ -1,4 +1,5 @@
-import { FromCoercer, coercer } from ".";
+/* oxlint-disable no-unused-expressions -- Property access checks inferred types. */
+import { type FromCoercer, coercer } from "./index.ts";
 
 //#region Core
 {
@@ -25,7 +26,7 @@ import { FromCoercer, coercer } from ".";
 
     //! Age must be optional
     // @ts-expect-error
-    coercer<User>(($) => ({
+    coercer<User>((_$) => ({
       name: String,
       email: String,
       age: Number,
@@ -86,7 +87,7 @@ import { FromCoercer, coercer } from ".";
 
   //! It allows to coerce FormData
   {
-    const formCoercer = coercer.infer(($) => ({
+    const formCoercer = coercer.infer(() => ({
       email: String,
       password: String,
     }));
@@ -112,7 +113,7 @@ import { FromCoercer, coercer } from ".";
     //! It coerces nested objects
 
     {
-      const coerceUser = coercer<User>(($) => ({
+      const coerceUser = coercer<User>(() => ({
         name: {
           first: String,
           last: String,
@@ -128,7 +129,7 @@ import { FromCoercer, coercer } from ".";
     }
 
     {
-      const coerceUser = coercer.infer(($) => ({
+      const coerceUser = coercer.infer(() => ({
         name: {
           first: String,
           last: String,
@@ -275,15 +276,15 @@ import { FromCoercer, coercer } from ".";
     const coerceUser = coercer<User>(($) => ({
       name: String,
       credentials: $.Union(
-        // @ts-expect-error: Object unions aren't suported right now
-        // [TODo] Add support for object unions
+        // @ts-expect-error: Object unions aren't supported right now
+        // TODO: Add support for object unions
         {
           email: String,
           password: String,
         },
         {
           phone: String,
-        }
+        },
       ),
     }));
 
@@ -298,15 +299,15 @@ import { FromCoercer, coercer } from ".";
     const coerceUser = coercer.infer(($) => ({
       name: String,
       credentials: $.Union(
-        // @ts-expect-error: Object unions aren't suported right now
-        // [TODo] Add support for object unions
+        // @ts-expect-error: Object unions aren't supported right now
+        // TODO: Add support for object unions
         {
           email: String,
           password: String,
         },
         {
           phone: String,
-        }
+        },
       ),
     }));
 
@@ -540,6 +541,8 @@ import { FromCoercer, coercer } from ".";
       email: String,
       age: $.Optional(Number),
     }));
+
+    coerceUser(data) satisfies User;
   }
 
   {
@@ -550,7 +553,7 @@ import { FromCoercer, coercer } from ".";
     }));
 
     const user = coerceUser(data);
-    //=> { user: "Sasha", email: "" }
+    user satisfies { name: string; email: string; age?: number };
   }
 }
 //#endregion

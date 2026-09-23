@@ -1,5 +1,0 @@
-node_modules
-/lib
-# Dev env
-.envrc
-.direnv

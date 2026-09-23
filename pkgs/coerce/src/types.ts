@@ -1,7 +1,7 @@
 /**
- * The root Of Coerce! namespace. It contains all the Of Coerce! types.
+ * The root Coerce! namespace. It contains all the @js-fns/coerce types.
  */
-export namespace OfCoerce {
+export namespace Coerce {
   //#region Core
   /**
    * The core types defining the high level types.
@@ -86,8 +86,6 @@ export namespace OfCoerce {
       ): Union<Utils.UnionFromArray<Type>>;
     }
 
-    type Test1 = Utils.IsLiteral<any>;
-
     /**
      * Optional coercer type. Wraps the constructor to signal that the field is
      * optional.
@@ -133,16 +131,15 @@ export namespace OfCoerce {
     /**
      * Resolves the type shape from the coercer schema.
      */
-    export type FromCoercer<Coercer_> = Coercer_ extends Coercer<infer Schema>
-      ? Schema
-      : never;
+    export type FromCoercer<Coercer_> =
+      Coercer_ extends Coercer<infer Schema> ? Schema : never;
   }
   //#endregion
 
   //#region Factory
   export namespace Factory {
     /**
-     * Factory unifing defined and inferred factories.
+     * Factory unifying defined and inferred factories.
      */
     export interface Factory extends Factory.Defined {
       /** Inferred version of the coercer factory. It infers the type from
@@ -166,7 +163,7 @@ export namespace OfCoerce {
       <Shape>(
         builder:
           | Core.Builder<Mapper.ToSchema<Shape, "root">>
-          | Mapper.ToSchema<Shape, "root">
+          | Mapper.ToSchema<Shape, "root">,
       ): Core.Coercer<Shape>;
     }
 
@@ -182,9 +179,9 @@ export namespace OfCoerce {
        * @param schema Schema or schema builder.
        * @returns Coercer function.
        */
-      <Schema>(schema: Core.Builder<Schema> | Schema): Core.Coercer<
-        Mapper.FromSchema<Schema>
-      >;
+      <Schema>(
+        schema: Core.Builder<Schema> | Schema,
+      ): Core.Coercer<Mapper.FromSchema<Schema>>;
     }
   }
   //#endregion
@@ -204,55 +201,61 @@ export namespace OfCoerce {
       > // Literal
         ? SchemaPair<Shape>
         : Utils.Debrand<Shape> extends boolean // Boolean
-        ? SchemaPair<Shape, BooleanConstructor>
-        : Utils.Debrand<Shape> extends string // String
-        ? SchemaPair<Shape, StringConstructor>
-        : Utils.Debrand<Shape> extends number // Number
-        ? SchemaPair<Shape, NumberConstructor>
-        : Shape extends Array<infer Item> // Array
-        ? SchemaPair<Shape, Core.Array<ToSchema<Item>>>
-        : Shape extends Record<any, any> // Object
-        ? SchemaPair<
-            Shape,
-            {
-              [Key in keyof Shape]: true extends Utils.RequiredKey<Shape, Key>
-                ? ToSchema<Shape[Key]>
-                : Core.Optional<
-                    // Exclude undefined from the field if it's not explicitly
-                    // defined as such.
-                    true extends Utils.IsUndefined<Shape, Key>
-                      ? ToSchema<Shape[Key]>
-                      : ToSchema<Exclude<Shape[Key], undefined>>
-                  >;
-            }
-          >
-        : never
+          ? SchemaPair<Shape, BooleanConstructor>
+          : Utils.Debrand<Shape> extends string // String
+            ? SchemaPair<Shape, StringConstructor>
+            : Utils.Debrand<Shape> extends number // Number
+              ? SchemaPair<Shape, NumberConstructor>
+              : Shape extends Array<infer Item> // Array
+                ? SchemaPair<Shape, Core.Array<ToSchema<Item>>>
+                : Shape extends Record<any, any> // Object
+                  ? SchemaPair<
+                      Shape,
+                      {
+                        [Key in keyof Shape]: true extends Utils.RequiredKey<
+                          Shape,
+                          Key
+                        >
+                          ? ToSchema<Shape[Key]>
+                          : Core.Optional<
+                              // Exclude undefined from the field if it's not explicitly
+                              // defined as such.
+                              true extends Utils.IsUndefined<Shape, Key>
+                                ? ToSchema<Shape[Key]>
+                                : ToSchema<Exclude<Shape[Key], undefined>>
+                            >;
+                      }
+                    >
+                  : never
     ) extends infer Type
       ? // Unions come in two flavors: one is union of SchemaPairs and the other
-        // there ths SchemaPair's type (first element) is a union. So we need to
+        // there the SchemaPair's type (first element) is a union. So we need to
         // treat them separately.
         true extends Utils.IsUnion<Type>
-        ? // Resolve union
-          // First add the defined coercer (String, Number, etc.)
-          | Core.Union<
+        ?
+            // Resolve union
+            // First add the defined coercer (String, Number, etc.)
+            | Core.Union<
                 Type extends SchemaPair<any, infer Coercer> ? Coercer : never
               >
             // Now add the custom coercer
             | (Flag extends "root"
                 ? never
                 : Type extends SchemaPair<infer Type, any>
-                ? Core.Coercer<Type>
-                : never)
+                  ? Core.Coercer<Type>
+                  : never)
         : Type extends SchemaPair<infer Type, infer Coercer>
-        ?
-            | // I wrap it into the union at the end to make it chance to resolve to
-            // the final type to avoid false positive on the union check.
-            (true extends Utils.IsUnion<Type> ? Core.Union<Coercer> : Coercer)
-            // Add custom coercer
-            | (Flag extends "root" ? never : Core.Coercer<Type>)
-            // Add class coercer
-            | (Flag extends "root" ? never : Core.CoercerClass<Type>)
-        : never
+          ?
+              | // I wrap it into the union at the end to make it chance to resolve to
+                // the final type to avoid false positive on the union check.
+                (true extends Utils.IsUnion<Type>
+                  ? Core.Union<Coercer>
+                  : Coercer)
+              // Add custom coercer
+              | (Flag extends "root" ? never : Core.Coercer<Type>)
+              // Add class coercer
+              | (Flag extends "root" ? never : Core.CoercerClass<Type>)
+          : never
       : never;
 
     /**
@@ -265,33 +268,40 @@ export namespace OfCoerce {
     /**
      * Resolves type shape from coerce schema.
      */
-    export type FromSchema<Schema> = Schema extends Core.Union<infer Type> // Union
-      ? FromSchema<Type>
-      : true extends Utils.IsLiteral<Schema> // Literal
-      ? Schema
-      : Schema extends BooleanConstructor // Boolean
-      ? boolean
-      : Schema extends NumberConstructor // Number
-      ? number
-      : Schema extends StringConstructor // String
-      ? string
-      : Schema extends ConstructorLike<infer Type> // Class
-      ? Type
-      : Schema extends Core.Array<infer Item> // Array
-      ? FromSchema<Item>[]
-      : Schema extends Core.Union<infer Type> // Union
-      ? FromSchema<Type>
-      : Schema extends Core.Coercer<infer Type> // Coercer
-      ? Type
-      : Schema extends Record<any, any> // Object
-      ? Utils.Combine<
-          {
-            [Key in RequiredSchemaKeys<Schema>]: FromSchemaField<Schema, Key>;
-          } & {
-            [Key in OptionalSchemaKeys<Schema>]?: FromSchemaField<Schema, Key>;
-          }
-        >
-      : never;
+    export type FromSchema<Schema> =
+      Schema extends Core.Union<infer Type> // Union
+        ? FromSchema<Type>
+        : true extends Utils.IsLiteral<Schema> // Literal
+          ? Schema
+          : Schema extends BooleanConstructor // Boolean
+            ? boolean
+            : Schema extends NumberConstructor // Number
+              ? number
+              : Schema extends StringConstructor // String
+                ? string
+                : Schema extends ConstructorLike<infer Type> // Class
+                  ? Type
+                  : Schema extends Core.Array<infer Item> // Array
+                    ? FromSchema<Item>[]
+                    : Schema extends Core.Union<infer Type> // Union
+                      ? FromSchema<Type>
+                      : Schema extends Core.Coercer<infer Type> // Coercer
+                        ? Type
+                        : Schema extends Record<any, any> // Object
+                          ? Utils.Combine<
+                              {
+                                [Key in RequiredSchemaKeys<Schema>]: FromSchemaField<
+                                  Schema,
+                                  Key
+                                >;
+                              } & {
+                                [Key in OptionalSchemaKeys<Schema>]?: FromSchemaField<
+                                  Schema,
+                                  Key
+                                >;
+                              }
+                            >
+                          : never;
 
     /**
      * Constructor-like type. It allows to infer the type from the constructor.
@@ -303,12 +313,10 @@ export namespace OfCoerce {
     /**
      * Resolves the type of the field from the schema.
      */
-    export type FromSchemaField<
-      Schema,
-      Key extends keyof Schema
-    > = Schema[Key] extends Core.Optional<infer Type>
-      ? Mapper.FromSchema<Type>
-      : Mapper.FromSchema<Schema[Key]>;
+    export type FromSchemaField<Schema, Key extends keyof Schema> =
+      Schema[Key] extends Core.Optional<infer Type>
+        ? Mapper.FromSchema<Type>
+        : Mapper.FromSchema<Schema[Key]>;
 
     /**
      * Resolves the required schema keys.
@@ -340,21 +348,19 @@ export namespace OfCoerce {
     /**
      * Resolves true if the passed key is a required field of the given type.
      */
-    export type RequiredKey<Type, Key extends keyof Type> = StaticKey<
-      Type,
-      Key
-    > extends true
-      ? Partial<Pick<Type, Key>> extends Pick<Type, Key>
-        ? false
-        : true
-      : false;
+    export type RequiredKey<Type, Key extends keyof Type> =
+      StaticKey<Type, Key> extends true
+        ? Partial<Pick<Type, Key>> extends Pick<Type, Key>
+          ? false
+          : true
+        : false;
 
     /**
      * Resolves true if the given key is statically defined in the given type.
      */
     export type StaticKey<
       Type,
-      Key extends keyof Type
+      Key extends keyof Type,
     > = Key extends keyof WithoutIndexed<Type> ? true : false;
 
     /**
@@ -364,10 +370,10 @@ export namespace OfCoerce {
       [Key in keyof Type as string extends Key
         ? never
         : number extends Key
-        ? never
-        : symbol extends Key
-        ? never
-        : Key]: Type[Key];
+          ? never
+          : symbol extends Key
+            ? never
+            : Key]: Type[Key];
     };
 
     /**
@@ -406,10 +412,10 @@ export namespace OfCoerce {
           ? false
           : true
         : (
-            Type extends any ? (Copy extends Type ? false : true) : never
-          ) extends false
-        ? false
-        : true;
+              Type extends any ? (Copy extends Type ? false : true) : never
+            ) extends false
+          ? false
+          : true;
 
     /**
      * Resolves true if the given type is a literal (i.e. true rather than boolean).
@@ -417,12 +423,12 @@ export namespace OfCoerce {
     export type IsLiteral<Type> = string extends Type
       ? false
       : number extends Type
-      ? false
-      : boolean extends Type
-      ? false
-      : Type extends boolean | number | string | undefined | null
-      ? true
-      : false;
+        ? false
+        : boolean extends Type
+          ? false
+          : Type extends boolean | number | string | undefined | null
+            ? true
+            : false;
 
     /**
      * Resolves true if the passed field is undefined union and not optionally
@@ -430,7 +436,7 @@ export namespace OfCoerce {
      */
     export type IsUndefined<
       Type,
-      Key extends keyof Type
+      Key extends keyof Type,
     > = undefined extends Required<Type>[Key] ? true : false;
 
     /**
@@ -451,10 +457,10 @@ export namespace OfCoerce {
     export type Debrand<Type> = Type extends boolean & AnyBrand
       ? boolean
       : Type extends string & AnyBrand
-      ? string
-      : Type extends number & AnyBrand
-      ? number
-      : Type;
+        ? string
+        : Type extends number & AnyBrand
+          ? number
+          : Type;
   }
   //#endregion
 }

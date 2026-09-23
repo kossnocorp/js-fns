@@ -1,0 +1,59 @@
+# Tasks ########################################################################
+
+# Test ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# test
+[tasks.test]
+extends = "pkg/test"
+
+# test:watch
+[tasks."test:watch"]
+extends = "pkg/test:watch"
+
+# Types ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# types
+[tasks.types]
+extends = "pkg/types"
+
+# types:watch
+[tasks."types:watch"]
+extends = "pkg/types:watch"
+
+# Format ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# format
+[tasks.format]
+extends = "pkg/format"
+
+# format:check
+[tasks."format:check"]
+extends = "pkg/format:check"
+
+# Lint ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# lint
+[tasks.lint]
+extends = "pkg/lint"
+
+# Build ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# build
+[tasks.build]
+extends = "pkg/build"
+
+# Publish ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# publish
+[tasks.publish]
+extends = "pkg/publish"
+
+# publish:next
+[tasks."publish:next"]
+extends = "pkg/publish:next"
+
+# Benchmark ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# bench
+[tasks.bench]
+extends = "pkg/bench"

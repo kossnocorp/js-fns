@@ -3,6 +3,7 @@
   "references": [
     { "path": "./pkgs/canon/" },
     { "path": "./pkgs/canon/_bench.pkg/" },
+    { "path": "./pkgs/coerce/" },
     { "path": "./pkgs/core/" },
     { "path": "./pkgs/decimal/" },
     { "path": "./pkgs/decimal/_bench.pkg/" },

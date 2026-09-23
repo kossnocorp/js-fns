@@ -1,16 +1,6 @@
 {
-  "include": ["src/**/*.ts"],
+  "extends": "@js-fns/dev/config/tsconfig.node",
   "compilerOptions": {
-    "outDir": "lib",
-    "target": "ESNext",
-    "module": "NodeNext",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "exactOptionalPropertyTypes": true,
-    "noUncheckedIndexedAccess": true,
-    "allowJs": true,
-    // [NOTE]: Enable only when debugging as it slows down the compilation
-    "noErrorTruncation": true
-  },
-  "exclude": []
+    "exactOptionalPropertyTypes": true
+  }
 }

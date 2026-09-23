@@ -1,50 +1,42 @@
 {
-  "name": "ofcoerce",
-  "version": "0.8.0",
+  "name": "@js-fns/coerce",
+  "version": "0.1.0",
   "description": "Lightweight type coercion library",
-  "main": "index.js",
-  "module": "index.mjs",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "require": {
-        "types": "./index.d.ts",
-        "default": "./index.js"
-      },
-      "import": {
-        "types": "./index.d.mts",
-        "default": "./index.mjs"
-      }
-    }
-  },
+  "license": "MIT",
+  "author": "Sasha Koss <koss@nocorp.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kossnocorp/ofcoerce.git"
+    "url": "git+https://github.com/js-fns/js-fns.git"
   },
-  "keywords": [
-    "state"
-  ],
-  "author": "Sasha Koss <koss@nocorp.me>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/kossnocorp/ofcoerce/issues"
+  "type": "module",
+  "main": "index.cjs",
+  "module": "index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
   },
-  "homepage": "https://github.com/kossnocorp/ofcoerce#readme",
+  "publishConfig": {
+    "main": "index.cjs",
+    "module": "index.js",
+    "types": "./index.d.ts",
+    "exports": {
+      ".": {
+        "require": {
+          "types": "./index.d.cts",
+          "default": "./index.cjs"
+        },
+        "import": {
+          "types": "./index.d.ts",
+          "default": "./index.js"
+        }
+      },
+      "./package.json": "./package.json"
+    }
+  },
   "devDependencies": {
-    "@babel/cli": "^7.24.6",
-    "@babel/core": "^7.24.6",
-    "@babel/plugin-transform-modules-commonjs": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
-    "@babel/preset-typescript": "^7.24.6",
-    "@parcel/watcher": "^2.4.1",
-    "@swc/core": "^1.5.7",
-    "babel-plugin-add-import-extension": "^1.6.0",
-    "bytes-iec": "^3.1.1",
-    "glob": "^10.4.1",
-    "minimatch": "^9.0.4",
-    "picocolors": "^1.0.1",
-    "typescript": "5.7.3",
-    "vitest": "^3.0.6"
-  },
-  "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0"
+    "@js-fns/dev": "workspace:*",
+    "@types/node": "^24.13.3",
+    "vitest": "4.1.10"
+  }
 }

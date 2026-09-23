@@ -1,0 +1,3 @@
+{
+  "extends": "@js-fns/dev/config/tsconfig.node.dist"
+}

@@ -1,9 +1,14 @@
+import type { Coerce } from "./types.ts";
+
+export type { Coerce };
+export type FromCoercer<Coercer> = Coerce.Core.FromCoercer<Coercer>;
+
 const memoized = [new Map(), new Map()];
 const symbols = [Symbol(), Symbol(), Symbol()];
 
-function Type(index, type) {
+function Type(index: number, type: any) {
   // Reuse the same object to avoid trashing the heap
-  !memoized[index].has(type) &&
+  if (!memoized[index].has(type))
     memoized[index].set(type, { [symbols[index]]: type });
   return memoized[index].get(type);
 }
@@ -11,13 +16,15 @@ function Type(index, type) {
 const helpers = {
   Optional: Type.bind(null, 0),
   Array: Type.bind(null, 1),
-  Union: (...types) => ({ [symbols[2]]: types }),
+  Union: (...types: any[]) => ({ [symbols[2]]: types }),
 };
 
-export function coercer(schema) {
+export const coercer: Coerce.Factory.Factory = createCoercer;
+
+function createCoercer(schema: any) {
   if (typeof schema === "function") schema = schema(helpers);
-  return function coerce() {
-    // [NOTE] Using arguments saves few bytes
+  return function coerce(..._args: any[]): any {
+    // NOTE: Using arguments saves few bytes
     let [
       value = "", // Default to empty value to prevent "undefined" strings
       coercer,
@@ -49,24 +56,28 @@ export function coercer(schema) {
     // The coercer is an array, so we use the first element as the coercer.
     if (symbols[1] in coercer)
       return (
-        (value && value?.map((item) => coerce(item, coercer[symbols[1]]))) || []
+        (value &&
+          value?.map((item: any) => coerce(item, coercer[symbols[1]]))) ||
+        []
       );
 
     // The coercer is an union, so we iterate over each type until we find
     // a match or use the first type as the default.
     if (symbols[2] in coercer) {
       const types = coercer[symbols[2]];
-      return types.find((t) => t === value) || types[0];
+      return types.find((t: any) => t === value) || types[0];
     }
 
     // The coercer is an object and each key must be coerced individually.
 
-    const result = {};
+    const result: Record<string, any> = {};
     value ||= {};
 
     // Define getter to access FormData
     const get =
-      value instanceof FormData ? (key) => value.get(key) : (key) => value[key];
+      value instanceof FormData
+        ? (key: string) => value.get(key)
+        : (key: string) => value[key];
 
     for (const key in coercer) {
       const field = coercer[key];
@@ -74,7 +85,7 @@ export function coercer(schema) {
       // Handle optional field
       if (field && typeof field === "object" && symbols[0] in field) {
         // Skip coercing optional field, if it is not present in the value
-        // [TODO] FormData support for this case
+        // TODO: FormData support for this case
         if (key in value) result[key] = coerce(get(key), field[symbols[0]]);
       }
       // Handle required field
@@ -85,4 +96,4 @@ export function coercer(schema) {
   };
 }
 
-coercer.infer = coercer;
+createCoercer.infer = createCoercer;

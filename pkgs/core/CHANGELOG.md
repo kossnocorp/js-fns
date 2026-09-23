@@ -8,6 +8,12 @@ This change log follows the format documented in [Keep a CHANGELOG].
 [semantic versioning]: http://semver.org/
 [keep a changelog]: http://keepachangelog.com/
 
+## v4.3.0 - 2026-09-24
+
+### Added
+
+- Added `@js-fns/coerce@0.1.0` as the `js-fns/coerce` module.
+
 ## v4.2.0 - 2026-08-14
 
 ### Added

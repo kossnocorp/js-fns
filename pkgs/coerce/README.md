@@ -1,13 +1,13 @@
-# Of Coerce!
+# @js-fns/coerce
 
-Of Coerce! is a lightweight, near-zero overhead alternative to [Zod](https://zod.dev/) and [Valibot](https://valibot.dev/).
+@js-fns/coerce is a lightweight, near-zero overhead alternative to [Zod](https://zod.dev/) and [Valibot](https://valibot.dev/).
 
-Unlike these libraries, Of Coerce! focuses on a single task: ensuring the data corresponds to the types.
+Unlike these libraries, @js-fns/coerce focuses on a single task: ensuring the data corresponds to the types.
 
-It uses built-in JavaScript features to coerce whatever you pass to it, which makes it the fastest and the most lightweight solution (full library is `381B`!).
+It uses built-in JavaScript features to coerce whatever you pass to it, keeping the library small and fast.
 
 ```ts
-import { coercer } from "ofcoerce";
+import { coercer } from "@js-fns/coerce";
 
 interface User {
   name: string;
@@ -21,8 +21,8 @@ const coerceUser = coercer<User>(($) => ({
   age: $.Optional(Number),
 }));
 
-const user = coerceUser({ user: "Sasha", age: "37" });
-//=> { user: "Sasha", email: "", age: 37 }
+const user = coerceUser({ name: "Sasha", age: "37" });
+//=> { name: "Sasha", email: "", age: 37 }
 ```
 
 It accepts the desired shape type as the generic argument and type-checks the defined schema against it.
@@ -30,7 +30,7 @@ It accepts the desired shape type as the generic argument and type-checks the de
 But just like the alternatives, it allows inferring types from the schema:
 
 ```ts
-import { coercer, FromCoercer } from "ofcoerce";
+import { coercer, type FromCoercer } from "@js-fns/coerce";
 
 const coerceUser = coercer.infer(($) => ({
   name: String,
@@ -39,13 +39,13 @@ const coerceUser = coercer.infer(($) => ({
 }));
 
 type User = FromCoercer<typeof coerceUser>;
-// { user: string, email: string, age?: number }
+// { name: string, email: string, age?: number }
 ```
 
 It also accepts `FormData` making it ideal when working with forms, especially inside of React Server Components:
 
 ```tsx
-import { coercer } from "ofcoerce";
+import { coercer } from "@js-fns/coerce";
 
 const coerceForm = coercer({
   email: String,
@@ -72,7 +72,7 @@ function SignInForm() {
 You can also use constructors as coercers, that is useful for example when working with `File`:
 
 ```tsx
-import { coercer } from "ofcoerce";
+import { coercer } from "@js-fns/coerce";
 
 const coerceFile = coercer({
   file: File,
@@ -103,7 +103,13 @@ It will check if the value is an instance of `File`, and if not, it will try to 
 Start by installing the package:
 
 ```sh
-npm i ofcoerce
+npm i @js-fns/coerce
+```
+
+It is also available as part of `js-fns`:
+
+```ts
+import { coercer } from "js-fns/coerce";
 ```
 
 ## Changelog
