@@ -1,7 +1,7 @@
 # js-fns
 
 > [!CAUTION]
-> The current branch represents the v3 version that is a complete revamp of the library. See [the `v2` branch](https://github.com/js-fns/js-fns/tree/v2) for the previous version.
+> The current branch represents the v3 version that is a complete revamp of the library. See [the `v2` branch](https://github.com/kossnocorp/js-fns/tree/v2) for the previous version.
 
 A JS utility library.
 

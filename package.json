@@ -1,6 +1,6 @@
 {
-  "name": "@js-fns/root",
-  "description": "js-fns monorepo root",
+  "name": "@js-fns/repo",
+  "description": "js-fns monorepo",
   "type": "module",
   "devDependencies": {
     "@js-fns/dev": "workspace:*",
