@@ -1,12 +1,12 @@
 {
   "name": "@js-fns/xxhash",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tiny xxHash JS implementation",
   "license": "MIT",
   "author": "Sasha Koss <koss@nocorp.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/js-fns/js-fns.git"
+    "url": "git+https://github.com/kossnocorp/js-fns.git"
   },
   "type": "module",
   "main": "index.cjs",
