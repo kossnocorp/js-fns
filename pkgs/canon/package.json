@@ -1,12 +1,12 @@
 {
   "name": "@js-fns/canon",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Tiny JS objects canonicalization for hashing",
   "license": "MIT",
   "author": "Sasha Koss <koss@nocorp.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/js-fns/js-fns.git"
+    "url": "git+https://github.com/kossnocorp/js-fns.git"
   },
   "type": "module",
   "main": "index.cjs",
