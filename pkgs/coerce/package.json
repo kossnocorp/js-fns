@@ -1,12 +1,12 @@
 {
   "name": "@js-fns/coerce",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lightweight type coercion library",
   "license": "MIT",
   "author": "Sasha Koss <koss@nocorp.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/js-fns/js-fns.git"
+    "url": "git+https://github.com/kossnocorp/js-fns.git"
   },
   "type": "module",
   "main": "index.cjs",
