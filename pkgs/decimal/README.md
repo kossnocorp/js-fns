@@ -6,6 +6,16 @@ It solves the main problem with the IEEE 754 floats (the notorious `0.1 + 0.2 ==
 
 FixedDecimal is **just `0.5 kB`** and has no dependencies, while [`decimal.js`](https://github.com/MikeMcl/decimal.js) is `12.3 kB`. In most cases, including working with money, the precision provided by `decimal.js` is irrelevant, so FixedDecimal is an excellent alternative.
 
+## Migrating from TinyFloat
+
+The package was previously published as [TinyFloat](https://github.com/kossnocorp/tinyfloat). The @js-fns/decimal version is identical, with only the class name changed from `TinyFloat` to `FixedDecimal`.
+
+Migrate to it to receive future updates. It's easy:
+
+1. Install the `@js-fns/decimal` package.
+2. Replace all `TinyFloat` strings with `FixedDecimal` to update the class references.
+3. Replace all `tinyfloat` strings with `@js-fns/decimal` to update the imports.
+
 ## Installation
 
 The package is available as a standalone npm package:

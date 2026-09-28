@@ -1,12 +1,12 @@
 {
   "name": "@js-fns/decimal",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A tiny decimal type for JavaScript",
   "license": "MIT",
   "author": "Sasha Koss <koss@nocorp.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/js-fns/js-fns.git"
+    "url": "git+https://github.com/kossnocorp/js-fns.git"
   },
   "type": "module",
   "main": "index.cjs",
