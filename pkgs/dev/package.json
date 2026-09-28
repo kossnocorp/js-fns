@@ -1,12 +1,12 @@
 {
   "name": "@js-fns/dev",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "js-fns development tools",
   "license": "MIT",
   "author": "Sasha Koss <koss@nocorp.me>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/js-fns/js-fns.git"
+    "url": "git+https://github.com/kossnocorp/js-fns.git"
   },
   "bin": {
     "jsd": "./src/bin.ts"
